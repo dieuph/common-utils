@@ -4,6 +4,14 @@
     <groupId>common-utils</groupId>
     <artifactId>common-utils</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    
+    <dependencies>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
