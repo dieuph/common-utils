@@ -1,5 +1,6 @@
 package com.github.dieuph.utils;
 
+import java.util.Hashtable;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -7,6 +8,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
 
 /**
  * The Class EmailUtils.
@@ -52,5 +58,21 @@ public class EmailUtils {
 
         transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
         transport.close();
+    }
+    
+    /**
+     * Lookup the domain name mail server registered.
+     *
+     * @param host the host name server
+     * @return the number of mail server
+     * @throws NamingException the naming exception
+     */
+    public static int lookup(String host) throws NamingException {
+        Hashtable<String, String> env = new Hashtable<String, String>();
+        env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
+        DirContext ictx = new InitialDirContext(env);
+        Attributes attrs = ictx.getAttributes(host, new String[] {"MX"});
+        Attribute attr = attrs.get("MX");
+        return attr.size();
     }
 }
